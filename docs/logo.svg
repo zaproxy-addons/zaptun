@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 150" width="200" height="150" role="img" aria-labelledby="t">
+  <title id="t">zaptun: a zapped Android head</title>
+  <style>
+    .shake { animation: shake .18s steps(1, end) infinite; transform-origin: 100px 140px; }
+    .flash { animation: flash .6s steps(1, end) infinite; }
+    @keyframes shake {
+      0%   { transform: translate(-2px,  1px) rotate(-1.5deg); }
+      33%  { transform: translate( 2px, -1px) rotate( 1.5deg); }
+      66%  { transform: translate(-1px, -1px) rotate( 0.8deg); }
+    }
+    @keyframes flash { 0% { opacity: 1; } 50% { opacity: .25; } }
+    @media (prefers-reduced-motion: reduce) { .shake, .flash { animation: none; } }
+  </style>
+
+  <g class="shake">
+    <g stroke="#3DDC84" stroke-width="6" stroke-linecap="round">
+      <line x1="76"  y1="86" x2="60"  y2="56"/>
+      <line x1="124" y1="86" x2="140" y2="56"/>
+    </g>
+    <path d="M36 140 A64 64 0 0 1 164 140 Z" fill="#3DDC84"/>
+    <g stroke="#073042" stroke-width="5" stroke-linecap="round">
+      <path d="M68 104 l16 16 M84 104 l-16 16"/>
+      <path d="M116 104 l16 16 M132 104 l-16 16"/>
+    </g>
+  </g>
+
+  <path class="flash" transform="translate(100 4)" d="M0 0 L-15 28 L-4 28 L-12 58 L17 20 L5 20 L14 0 Z"
+        fill="#FFD400" stroke="#00549E" stroke-width="3.5" stroke-linejoin="round"/>
+</svg>

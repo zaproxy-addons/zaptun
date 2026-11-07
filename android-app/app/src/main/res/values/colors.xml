@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="icon_background">#FFFFFF</color>
+    <color name="zap_blue">#00549E</color>
+    <!-- Button fills stay dark in both themes so the white label stays readable. -->
+    <color name="button_connect">#1E9E5A</color>
+    <color name="button_disconnect">#C62828</color>
+    <color name="ok">#1E9E5A</color>
+    <color name="bad">#C62828</color>
+    <color name="card">#FFFFFF</color>
+    <color name="card_stroke">#1F000000</color>
+    <color name="page">#F4F6F8</color>
+</resources>

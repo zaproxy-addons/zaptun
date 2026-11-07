@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<TITLE>
+zaptun: Android Interception
+</TITLE>
+</HEAD>
+<BODY>
+<H1>zaptun: Android Interception</H1>
+
+Captures all traffic of an Android emulator or rooted device in ZAP, with one click.
+<p>
+Pick a device in <b>Tools &gt; Android Devices...</b> (or click the phone button in the toolbar)
+and click <b>Intercept</b>. The add-on then, over adb:
+<ol>
+<li>installs the zaptun VPN app on the device;</li>
+<li>injects ZAP's root CA into the device's <b>system</b> CA store, including the Conscrypt APEX
+on Android 14+, and also installs it as a <b>user</b> CA;</li>
+<li>forwards the device's <code>127.0.0.1:&lt;port&gt;</code> to ZAP's proxy with
+<code>adb reverse</code>;</li>
+<li>starts the VPN. Every TCP connection on the device then goes through ZAP, including apps that
+ignore the system proxy (Flutter, OkHttp with <code>Proxy.NO_PROXY</code>, raw sockets, ...);</li>
+<li>makes zaptun Android's <b>always-on VPN with lockdown</b>, so no app traffic gets around ZAP
+while zaptun reconnects or restarts (see <a href="#lockdown">Lockdown</a>).</li>
+</ol>
+There's nothing to export, push or configure by hand.
+
+<H2>Requirements</H2>
+<ul>
+<li><b>adb</b>, from the Android SDK platform-tools. It's found automatically, or set in the
+<a href="options.html">options</a>.</li>
+<li><b>Root on the device</b>, because injecting a system CA needs it: either an emulator with a
+"Google APIs" image ("Google Play" images can't <code>adb root</code>; the add-on runs
+<code>adb root</code> for you), or a rooted phone with <code>su</code> (e.g. Magisk). Grant root to
+"Shell" when asked.</li>
+<li>ZAP's proxy bound to <code>localhost</code> or all interfaces, which is the default:
+<code>adb reverse</code> connects to localhost.</li>
+</ul>
+
+<H2>The Android Devices dialog</H2>
+<ul>
+<li>The table lists every adb device with its Android version, how root is obtained and whether
+zaptun is intercepting it. <b>Refresh</b> reads it again.</li>
+<li><b>Apps</b> is optional. Leave it empty to capture every app, or click <b>Choose...</b> to pick
+packages from the device.</li>
+<li><b>Intercept</b> runs the steps above and logs each one. It's safe to click it again at any
+time.</li>
+<li><b>Stop</b> turns lockdown off, then the VPN, and removes the <code>adb reverse</code>
+rule.</li>
+<li><b>Options...</b> opens the <a href="options.html">options</a>, where adb is configured.</li>
+</ul>
+The system CA injection lives in RAM, so it's lost when the device reboots: click
+<b>Intercept</b> again after a reboot. Start or restart the app you want to capture after clicking
+<b>Intercept</b>: an app that's already running keeps the CA store it started with.
+
+<H2>Checking it works</H2>
+<ul>
+<li>ZAP's History shows hostnames, not IP addresses, for HTTPS traffic from apps.</li>
+<li>The zaptun app on the device shows a green tick next to <b>System trust enabled</b>.</li>
+<li><code>adb logcat -s zaptun</code> shows lines like <code>TLS api.example.com:443 → ZAP</code>.</li>
+<li>A connection that fails with <code>proxy said: HTTP/1.1 502 ...</code> means ZAP couldn't reach
+the destination; <code>Connection refused</code> means ZAP isn't listening on that port.</li>
+</ul>
+Certificate pinning isn't bypassed: apps that pin still need Frida or objection.
+
+<H2><a name="lockdown">Lockdown</a></H2>
+With lockdown ("Block connections without VPN" in Android's settings), apps get no network at all
+while the VPN is down, so ZAP misses nothing while zaptun reconnects, restarts or hasn't started
+yet after a boot. Only system code may change this setting, so the add-on runs a small tool from
+zaptun's own APK as root.
+<ul>
+<li>When only some apps are captured, the other apps aren't on the VPN and lockdown would cut them
+off, so zaptun is always-on without lockdown.</li>
+<li>While lockdown is on, <b>Disconnect</b> in the app leaves apps with no network. Use
+<b>Stop</b> to end a session.</li>
+<li>If the device reboots with lockdown on, Android starts zaptun by itself, but the CA and the
+<code>adb reverse</code> rule are gone, so nothing gets through until you click <b>Intercept</b>
+again.</li>
+</ul>
+
+<H2>What the add-on puts on the device</H2>
+<ul>
+<li>The zaptun VPN app (package <code>dev.davidjosearaujo.zaptun</code>), installed from the APK
+bundled in the add-on, and granted <code>WRITE_SECURE_SETTINGS</code> (so it can switch Android's
+global proxy off while connected, and back on after) and <code>POST_NOTIFICATIONS</code>.</li>
+<li>ZAP's root CA and two shell scripts, pushed to <code>/data/local/tmp</code>:
+<code>inject_ca.sh</code> (system store) and <code>install_user_ca.sh</code> (user store).</li>
+</ul>
+
+<H2>See also</H2>
+<table>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a href="options.html">Options</a></td>
+<td>where zaptun finds adb</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a href="api.html">API</a></td>
+<td>intercepting devices from scripts and CI</td></tr>
+</table>
+
+<H2>Source code</H2>
+The add-on, the VPN app it installs and the CA scripts:
+<a href="https://codeberg.org/davidjosearaujo/zaptun">https://codeberg.org/davidjosearaujo/zaptun</a>
+
+</BODY>
+</HTML>

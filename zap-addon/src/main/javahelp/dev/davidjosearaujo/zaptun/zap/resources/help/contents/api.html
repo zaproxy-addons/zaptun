@@ -1,0 +1,55 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<TITLE>
+zaptun API
+</TITLE>
+</HEAD>
+<BODY>
+<H1>zaptun API</H1>
+
+Everything the Android Devices dialog does is also on the ZAP API, under the <code>zaptun</code>
+component, for scripts, CI and ZAP running headless.
+Progress and the reasons for failures are written to ZAP's log (<code>zap.log</code>).
+
+<H2>Views</H2>
+<ul>
+<li><b>devices</b>: every adb device, with its serial, state, model, Android version, SDK level,
+root method, and whether zaptun is installed and intercepting.</li>
+<li><b>packages</b> (<code>serial</code>): the third-party apps installed on a device.</li>
+<li><b>adb</b>: the adb binary zaptun runs.</li>
+<li><b>optionAdbPath</b>, <b>optionSdkPath</b>, <b>optionApps</b>: the saved options.</li>
+</ul>
+
+<H2>Actions</H2>
+<ul>
+<li><b>intercept</b> (<code>serial</code>, <code>apps</code>): sets the device up and starts
+capturing its traffic. Without a serial, the only connected device is used. <code>apps</code> is an
+optional, comma-separated list of package names; leave it out to capture every app.</li>
+<li><b>stop</b> (<code>serial</code>): stops capturing.</li>
+<li><b>setOptionAdbPath</b>, <b>setOptionSdkPath</b>, <b>setOptionApps</b>: set the options.</li>
+<li><b>useDetectedAdb</b>: clears the adb and SDK paths, so adb is detected from the environment
+again.</li>
+</ul>
+
+<H2>Examples</H2>
+<pre>
+curl "http://localhost:8080/JSON/zaptun/view/devices/?apikey=$KEY"
+curl "http://localhost:8080/JSON/zaptun/action/intercept/?apikey=$KEY&amp;serial=emulator-5554&amp;apps=com.example.app"
+curl "http://localhost:8080/JSON/zaptun/action/stop/?apikey=$KEY&amp;serial=emulator-5554"
+curl "http://localhost:8080/JSON/zaptun/action/setOptionSdkPath/?apikey=$KEY&amp;String=/opt/android-sdk"
+</pre>
+The options can also be set when starting ZAP, e.g.
+<code>zap.sh -daemon -config zaptun.sdkPath=/opt/android-sdk</code>.
+
+<H2>See also</H2>
+<table>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a href="zaptun.html">zaptun: Android Interception</a></td>
+<td>the add-on's main page</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a href="options.html">Options</a></td>
+<td>what the adb options mean</td></tr>
+</table>
+
+</BODY>
+</HTML>

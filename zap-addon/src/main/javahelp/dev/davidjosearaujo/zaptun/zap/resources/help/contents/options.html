@@ -1,0 +1,42 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<TITLE>
+Options Android (zaptun) screen
+</TITLE>
+</HEAD>
+<BODY>
+<H1>Options Android (zaptun) screen</H1>
+
+This screen sets where zaptun finds adb. Open it from <b>Tools &gt; Options &gt; Android (zaptun)</b>,
+or with <b>Options...</b> in the Android Devices dialog.
+
+<H3>Android SDK</H3>
+The Android SDK folder. adb is taken from its <code>platform-tools</code> folder.
+
+<H3>adb</H3>
+The adb binary itself. If set, it takes priority over the SDK.
+
+<H3>Detection</H3>
+When a field is empty, the screen fills it in and says where the value came from, trying in turn:
+<code>ANDROID_HOME</code>, <code>ANDROID_SDK_ROOT</code>, Android Studio's default SDK folders
+(<code>~/Android/Sdk</code>, <code>~/Library/Android/sdk</code>,
+<code>%LOCALAPPDATA%\Android\Sdk</code>), then <code>PATH</code>.
+<p>
+<b>Detect</b> fills both fields in again from the environment, replacing what's there.
+<b>Test adb</b> runs <code>adb version</code> with what's in the fields, without saving them.
+<p>
+If you save the screen with both fields empty, zaptun keeps detecting adb from the environment
+every time it runs it.
+
+<H2>See also</H2>
+<table>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a href="zaptun.html">zaptun: Android Interception</a></td>
+<td>the add-on's main page</td></tr>
+<tr><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><a href="api.html">API</a></td>
+<td>setting these options on headless ZAP</td></tr>
+</table>
+
+</BODY>
+</HTML>

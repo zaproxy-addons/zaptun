@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ok">#4CD787</color>
+    <color name="bad">#EF6C6C</color>
+    <color name="card">#1E2226</color>
+    <color name="card_stroke">#33FFFFFF</color>
+    <color name="page">#121416</color>
+</resources>

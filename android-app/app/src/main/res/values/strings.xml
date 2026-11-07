@@ -1,0 +1,74 @@
+<resources>
+    <string name="app_name">zaptun</string>
+
+    <string name="status_on">Intercepting traffic</string>
+    <string name="status_off">Disconnected</string>
+    <string name="proxy_line">Sending to ZAP at %1$s:%2$d · Edit</string>
+    <string name="proxy_note_cleared">Android\'s global proxy (%1$s) is off while zaptun is connected, so every app goes through zaptun. It comes back when you disconnect.</string>
+    <string name="proxy_note_failed">Android\'s global proxy is set to %1$s, so apps that use it bypass zaptun. To let zaptun switch it off, run: adb shell pm grant dev.davidjosearaujo.zaptun android.permission.WRITE_SECURE_SETTINGS, then reconnect.</string>
+    <string name="notification_channel">Interception status</string>
+    <string name="notification_title">zaptun is intercepting traffic</string>
+    <string name="notification_text">Sending to ZAP at %1$s</string>
+    <string name="notification_disconnect">Disconnect</string>
+    <string name="connect">Connect</string>
+    <string name="disconnect">Disconnect</string>
+
+    <string name="certificate">ZAP certificate</string>
+    <string name="system_trust">System trust enabled</string>
+    <string name="user_trust">User trust enabled</string>
+    <string name="trust_checking">Checking the CA stores…</string>
+    <string name="trust_system_ok">%1$s is a system CA, so every app trusts ZAP.</string>
+    <string name="trust_user_only">%1$s is only a user CA: Chrome and debuggable apps trust it, most apps don\'t. Click Intercept in ZAP to install it as a system CA (needs root).</string>
+    <string name="trust_missing">ZAP\'s CA isn\'t installed, so HTTPS won\'t decrypt. Click Intercept in ZAP\'s Android Devices dialog to install it (needs root).</string>
+    <string name="trust_error">Couldn\'t read the CA stores: %1$s</string>
+    <string name="zap_ca">ZAP\'s CA</string>
+
+    <string name="ports">Intercepted ports</string>
+    <string name="restore_ports">Restore defaults</string>
+    <string name="ports_hint">Tap a port to remove it. Connections to other ports go straight to their destination.</string>
+    <plurals name="ports_summary">
+        <item quantity="one">%1$d port</item>
+        <item quantity="other">%1$d ports</item>
+    </plurals>
+    <string name="ports_none">No ports: nothing goes to ZAP.</string>
+    <string name="ports_summary_all">%1$s + HTTP anywhere</string>
+    <string name="all_ports">Also find HTTP on every other port</string>
+    <string name="all_ports_hint">Other ports are looked at for half a second: plain HTTP, and TLS that offers HTTP (ALPN), go to ZAP. Anything else still goes straight to its destination, a little later if the server speaks first (SSH, SMTP). Add a port above to send any TLS on it to ZAP.</string>
+    <string name="add_port">+ Add</string>
+    <string name="add_port_hint">e.g. 9443 or 3000, 5000</string>
+    <string name="invalid_ports">Enter port numbers between 1 and 65535</string>
+
+    <string name="apps">Apps</string>
+    <string name="all_apps">Intercept all apps</string>
+    <string name="show_system_apps">Show system apps</string>
+    <string name="apps_all_hint">Every app is intercepted except the ones switched off (%1$d).</string>
+    <string name="apps_selected_hint">Only the apps switched on are intercepted (%1$d).</string>
+    <string name="apps_loading">Loading apps…</string>
+    <string name="apps_summary_all">All apps</string>
+    <string name="apps_summary_all_except">All except %1$d</string>
+    <string name="apps_summary_only">Only %1$d</string>
+
+    <string name="edit_proxy">ZAP proxy</string>
+    <string name="proxy_host">Host</string>
+    <string name="proxy_port">Port</string>
+    <string name="invalid_proxy">Enter a host and a port between 1 and 65535</string>
+    <string name="permission_denied">VPN permission denied</string>
+
+    <string name="activity">Activity</string>
+    <plurals name="activity_summary">
+        <item quantity="one">%1$d connection</item>
+        <item quantity="other">%1$d connections</item>
+    </plurals>
+    <string name="activity_empty">No connections yet. Anything an app opens through zaptun shows up here, intercepted or not.</string>
+    <string name="activity_clear">Clear</string>
+    <string name="activity_nothing_refused">Nothing refused so far.</string>
+    <string name="activity_udp_passed">UDP passed straight through (ZAP can\'t proxy it): %1$s</string>
+    <string name="activity_udp_refused">UDP refused, so clients fall back to TCP: %1$s</string>
+    <string name="activity_ipv6_refused">IPv6 refused (apps use IPv4): %1$d</string>
+    <string name="activity_dns">DNS queries: %1$d, without an answer: %2$d, retried over TCP: %3$d</string>
+    <string name="activity_row">%1$s  %2$s</string>
+    <string name="restore_all">Restore default settings</string>
+    <string name="restore_all_title">Restore default settings?</string>
+    <string name="restore_all_message">This resets the ZAP address (%1$s:%2$d), the intercepted ports and the app selection (all apps). If zaptun is connected, it reconnects.</string>
+    <string name="restore_all_confirm">Restore</string>
+</resources>
