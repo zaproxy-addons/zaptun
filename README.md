@@ -25,6 +25,8 @@ zaptun is a ZAP add-on. Pick a device in *Tools → Android Devices...* and clic
 
 There's nothing to export, push or configure by hand.
 
+![The zaptun devices dialog in ZAP intercepting an emulator: the browser's request to example.org shows up in ZAP's History](docs/img/intercept.png)
+
 You can also do it without the add-on, from a shell: `scripts/zaptun.sh start`
 does the same steps (see [Without the add-on](#without-the-add-on-scriptszaptunsh)).
 
@@ -61,6 +63,8 @@ covers its UI, options and API.
 Open *Tools → Options → Android (zaptun)*, or click **Options...** in the
 devices dialog. The page has two fields:
 
+![The Android (zaptun) options page, with the SDK and adb paths found in the default SDK folder](docs/img/options.png)
+
 - **Android SDK**: the SDK folder. adb is taken from its `platform-tools`.
 - **adb**: the adb binary itself. If set, it takes priority over the SDK.
 
@@ -84,6 +88,8 @@ Open *Tools → Android Devices...*, or click the phone button in the toolbar.
   **Choose...** to pick packages from the device.
 - **Intercept** runs the steps above and logs each one. **Stop** turns lockdown
   off, then the VPN, and removes the `adb reverse` rule.
+
+![After Intercept: the dialog's log of each step, and the zaptun app on the emulator showing it's sending traffic to ZAP with its CA trusted](docs/img/connect.png)
 
 The system CA injection lives in RAM, so it's lost when the device reboots. Click
 **Intercept** again after a reboot. It's safe to click it again at any time.
