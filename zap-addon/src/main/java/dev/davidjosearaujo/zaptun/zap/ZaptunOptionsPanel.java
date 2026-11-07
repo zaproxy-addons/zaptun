@@ -37,6 +37,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingWorker;
 import org.parosproxy.paros.model.OptionsParam;
 import org.parosproxy.paros.view.AbstractParamPanel;
+import org.zaproxy.zap.utils.ZapHtmlLabel;
 
 /**
  * Tools > Options > Android (zaptun): where the Android SDK and adb are. Empty fields are filled in
@@ -248,8 +249,9 @@ class ZaptunOptionsPanel extends AbstractParamPanel {
      * A label that wraps. Plain JLabels cut long text off with "...", and a JTextArea gets its
      * height wrong in a GridBagLayout; HTML with a fixed width does neither.
      */
+    /** ZAP turns HTML off in plain JLabels, so wrapping text needs a ZapHtmlLabel. */
     private static JLabel wrapping(String text) {
-        return new JLabel("<html><body style='width: 420px'>" + text + "</body></html>");
+        return new ZapHtmlLabel("<html><body style='width: 420px'>" + text + "</body></html>");
     }
 
     private static JLabel note() {
