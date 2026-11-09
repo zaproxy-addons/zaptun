@@ -82,12 +82,30 @@ dependencies {
 
 // Bundle what the add-on puts on devices into its resources: the Android app's APK and the CA
 // scripts, which live in scripts/ so that scripts/zaptun.sh uses the very same ones.
+//
+// The APK is built from android-app/ when an Android SDK is available (see settings.gradle.kts).
+// Otherwise the prebuilt one in zap-addon/prebuilt/ is bundled; refresh it with
+// ./gradlew :zap-addon:updatePrebuiltApk after changing the app.
+val builtApk = rootProject.file("android-app/app/build/outputs/apk/debug/app-debug.apk")
+val prebuiltApk = layout.projectDirectory.file("prebuilt/zaptun.apk")
+val appBuild = gradle.includedBuilds.firstOrNull { it.name == "android-app" }
+
+val updatePrebuiltApk =
+    tasks.register<Copy>("updatePrebuiltApk") {
+        check(appBuild != null) { "The Android app isn't part of this build: no Android SDK found" }
+        dependsOn(appBuild.task(":app:assembleDebug"))
+        from(builtApk) { rename { "zaptun.apk" } }
+        into(layout.projectDirectory.dir("prebuilt"))
+    }
+
 val deviceResources = layout.buildDirectory.dir("generated/device-resources")
 val bundleDeviceFiles =
     tasks.register<Copy>("bundleDeviceFiles") {
-        dependsOn(gradle.includedBuild("android-app").task(":app:assembleDebug"))
-        from(rootProject.file("android-app/app/build/outputs/apk/debug/app-debug.apk")) {
-            rename { "zaptun.apk" }
+        if (appBuild != null) {
+            dependsOn(appBuild.task(":app:assembleDebug"))
+            from(builtApk) { rename { "zaptun.apk" } }
+        } else {
+            from(prebuiltApk)
         }
         from(rootProject.file("scripts")) {
             include("inject_ca.sh", "install_user_ca.sh")

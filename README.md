@@ -5,7 +5,7 @@
 # zaptun
 
 **Capture all traffic of an Android emulator or rooted device in
-[OWASP ZAP](https://www.zaproxy.org/), with one click.**
+[ZAP](https://www.zaproxy.org/), with one click.**
 
 zaptun is a ZAP add-on. Pick a device in *Tools → Android Devices...* and click
 **Intercept**. The add-on then:
@@ -339,10 +339,19 @@ Certificate pinning still needs Frida or objection.
 
 ## Build
 
-Requirements: JDK 17+ and an Android SDK with platform 37. Set `sdk.dir` in
-`android-app/local.properties` or set `ANDROID_HOME`.
+Requirements: JDK 17+. Building the add-on does **not** need the Android SDK: without one it
+bundles the prebuilt APK in [`zap-addon/prebuilt/zaptun.apk`](zap-addon/prebuilt/), so
+`./gradlew copyZapAddOn` works in a plain JDK container (the `.zap` file ends up in
+`zap-addon/build/zapAddOn/bin/`).
+
+To build the APK from source (and to work on the app) you need an Android SDK with platform 37.
+Set `sdk.dir` in `android-app/local.properties` or set `ANDROID_HOME`; the add-on build then
+builds the app and bundles that APK. Force either way with `-Pzaptun.buildApk=true|false`.
+After changing the app, refresh the prebuilt APK and commit it:
+`./gradlew :zap-addon:updatePrebuiltApk`.
 
 ```shell
+./gradlew copyZapAddOn               # just the .zap file, in zap-addon/build/zapAddOn/bin/
 ./gradlew :zap-addon:build           # add-on, with the APK and scripts/'s CA scripts; tests; checks
 ./gradlew :zap-addon:spotlessApply   # formats the add-on's code as ZAP's add-ons are
 ./gradlew :zap-addon:deployZapAddOn  # builds the add-on and copies it into ZAP's home dir

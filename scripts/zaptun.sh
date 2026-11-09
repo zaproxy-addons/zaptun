@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# zaptun.sh - set up an emulator/rooted device for OWASP ZAP and drive the zaptun VPN over adb.
+# zaptun.sh - set up an emulator/rooted device for ZAP and drive the zaptun VPN over adb.
 #
 #   zaptun.sh install [app-debug.apk]     install zaptun and pre-approve the VPN (no consent dialog)
 #   zaptun.sh cert [port]                 fetch ZAP's root CA and inject it into the system store
